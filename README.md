@@ -7,3 +7,5 @@ DURATION:6WEEKS
       I haven done the project fraud detection
       and used the libraries pandas sklearn 
       used the dataset credit card form kaggle
+ouput:
+https://github.com/Karishma-16/fraud_detection-project/issues/new
