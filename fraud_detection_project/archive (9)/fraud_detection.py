@@ -1,0 +1,24 @@
+import pandas as pd
+from sklearn.ensemble import IsolationForest
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import classification_report, confusion_matrix
+
+# Load data
+df = pd.read_csv('creditcard.csv')
+
+# Preprocess
+df['Amount'] = StandardScaler().fit_transform(df[['Amount']])
+df.drop(['Time'], axis=1, inplace=True)
+
+X = df.drop('Class', axis=1)
+y = df['Class']
+
+# Train Isolation Forest
+model = IsolationForest(n_estimators=100, contamination=0.001, random_state=42)
+model.fit(X)
+df['anomaly'] = model.predict(X)
+df['anomaly'] = df['anomaly'].apply(lambda x: 1 if x == -1 else 0)
+
+# Evaluate
+print("Confusion Matrix:\n", confusion_matrix(y, df['anomaly']))
+print("\nClassification Report:\n", classification_report(y, df['anomaly']))
